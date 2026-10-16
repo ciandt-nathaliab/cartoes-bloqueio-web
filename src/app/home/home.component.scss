@@ -1,0 +1,99 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: #252525;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.conteudo {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f7f7f7;
+}
+
+.conteudo-principal {
+  width: min(100% - 40px, 720px);
+  margin: 0 auto;
+  padding: 52px 0 48px;
+  flex: 1;
+}
+
+.introducao {
+  margin-bottom: 36px;
+}
+
+.rotulo-secao {
+  margin: 0 0 10px;
+  color: #cc092f;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 12px;
+  font-size: clamp(28px, 5vw, 36px);
+  letter-spacing: -0.8px;
+}
+
+.descricao {
+  margin-bottom: 0;
+  color: #5f5f5f;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.cabecalho-lista {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.cabecalho-lista h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.botao-bloqueio {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 6px;
+  background: #cc092f;
+  color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.botao-bloqueio:hover:not(:disabled) {
+  background: #a80727;
+}
+
+.botao-bloqueio:focus-visible {
+  outline: 3px solid #215caf;
+  outline-offset: 3px;
+}
+
+.botao-bloqueio:disabled {
+  background: #b9b9b9;
+  cursor: not-allowed;
+}
+
+@media (max-width: 560px) {
+  .botao-bloqueio {
+    width: 100%;
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "mappings": {
+    "default": {
+      "request": {
+        "method": "GET,POST"
+      },
+      "response": {
+        "strategy": "first-found",
+        "latency": 0,
+        "status": 200
+      }
+    },
+    "requests": [
+      "mappings/bloqueio-cartoes.yaml"
+    ]
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 3000
+  },
+  "stubs": "stubs/",
+  "logs": {
+    "path": "logs/"
+  }
+}
