@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    namespace: $_KUBERNETES_NAMESPACE
+    name: ${bamboo_pom_artifactId}-configmap
+data:
+    API_URL_CARTOES: $_API_URL_CARTOES
+    APP_INSIGHTS_ROLE_NAME: "${bamboo_pom_artifactId}"
+    API_URL_BASE_APIM: $_API_URL_BASE_APIM

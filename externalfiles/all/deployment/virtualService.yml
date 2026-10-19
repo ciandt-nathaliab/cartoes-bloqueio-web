@@ -1,0 +1,22 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ${bamboo_pom_artifactId}-istio-ingress
+  namespace: $_KUBERNETES_NAMESPACE
+spec:
+  hosts:
+    - $_API_DOMAIN_CARTOES
+  gateways:
+    - istio/istio-ingress-gateway
+  http:
+    - name: ${bamboo_pom_artifactId}
+      match:
+        - uri:
+            prefix: '/cartoes-bloqueio-web/'
+        - uri:
+            prefix: '/cartoes-bloqueio-web/'
+      rewrite:
+        uri: '/'
+      route:
+        - destination:
+            host: ${bamboo_pom_artifactId}-service.$_KUBERNETES_NAMESPACE.svc.cluster.local

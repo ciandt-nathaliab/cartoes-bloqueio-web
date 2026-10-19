@@ -1,0 +1,87 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+    name: ${bamboo_pom_artifactId}-deployment
+    namespace: $_KUBERNETES_NAMESPACE
+    labels:
+        app: ${bamboo_pom_artifactId}-deployment
+spec:
+    selector:
+        matchLabels:
+            app: ${bamboo_pom_artifactId}-deployment
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                app: ${bamboo_pom_artifactId}-deployment
+                tier: frontend
+        spec:
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 1001
+              runAsGroup: 1001
+            automountServiceAccountToken: false
+            containers:
+              - name:  ${bamboo_pom_artifactId}
+                image: ${acr_name}/${_bamboo_inject_dominio}/${_bamboo_inject_nomeplano}:${_bamboo_inject_versaoRelease}
+                securityContext:
+                  runAsNonRoot: true
+                  runAsUser: 1001
+                  runAsGroup: 1001
+                  readOnlyRootFilesystem: true
+                  allowPrivilegeEscalation: false
+                  privileged: false
+                resources:
+                  requests:
+                    memory: "$_KUBERNETES_CONTAINER_REQUEST_MEMORY"
+                    cpu: "$_KUBERNETES_CONTAINER_REQUEST_CPU"
+                  limits:
+                    memory: "$_KUBERNETES_CONTAINER_LIMIT_MEMORY"
+                    cpu: "$_KUBERNETES_CONTAINER_LIMIT_CPU"
+                ports:
+                    - containerPort: 8080
+                      protocol: TCP
+                imagePullPolicy: Always
+                envFrom:
+                - configMapRef:
+                    name: ${bamboo_pom_artifactId}-configmap
+                volumeMounts:
+                  - name: source-volume
+                    mountPath: /volume/opt/app-root/src
+                  - name: tmp-volume
+                    mountPath: /tmp
+                  - name: tmp-nginx-log-volume
+                    mountPath: /var/log/nginx
+            volumes:
+              - name: source-volume
+                emptyDir: {}
+              - name: tmp-volume
+                emptyDir: {}
+              - name: tmp-nginx-log-volume
+                emptyDir: {}
+            nodeSelector:
+                agentpool: $_KUBERNETES_POOL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: ${bamboo_pom_artifactId}-service
+    namespace: $_KUBERNETES_NAMESPACE
+    labels:
+        app: ${bamboo_pom_artifactId}-service
+    annotations:
+        service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+        service.beta.kubernetes.io/oci-load-balancerr-ssl-ports: "8443"
+        service.beta.kubernetes.io/oci-load-balancerr-tls-secret: ssl-certificate-secret
+spec:
+    ports:
+        - name: service
+          protocol: TCP
+          port: 8443
+          targetPort: 8080
+    selector:
+        app: ${bamboo_pom_artifactId}-deployment
+    type: ClusterIP
+

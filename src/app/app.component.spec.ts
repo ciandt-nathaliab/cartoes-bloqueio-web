@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { App } from './app';
+import { AppComponent } from './app.component';
 
-describe('Aplicação', () => {
+describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App],
+      imports: [AppComponent],
       providers: [provideRouter([])],
     }).compileComponents();
   });
 
   it('deve criar o componente principal e exibir a área de navegação', () => {
-    const fixture = TestBed.createComponent(App);
+    const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
 
     expect(fixture.componentInstance).toBeTruthy();

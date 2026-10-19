@@ -1,59 +1,58 @@
 # CartoesBloqueioWeb
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.26.
+Aplicação Angular para bloqueio de cartões.
 
-## Development server
+## Requisitos
 
-To start a local development server, run:
+- Node.js e npm
+- Stubmatic instalado globalmente para executar o mock local
 
-```bash
-ng serve
-```
+## Instalação
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Na raiz do projeto, instale as dependências:
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+O Stubmatic não faz parte das dependências locais do projeto. Instale-o globalmente para disponibilizar o comando `stubmatic` usado pelo script do mock:
 
 ```bash
-ng generate --help
+npm install -g stubmatic
 ```
 
-## Building
+## Executar a aplicação com o mock
 
-To build the project run:
+O mock recebe as requisições na porta `3000`. Para testar a aplicação localmente, mantenha o mock e a aplicação em execução em terminais separados.
+
+No primeiro terminal, na raiz do projeto, inicie o mock:
 
 ```bash
-ng build
+npm run mock
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+No segundo terminal, inicie a aplicação com o proxy local:
 
 ```bash
-ng test
+npm run start:local
 ```
 
-## Running end-to-end tests
+Acesse [http://localhost:4200](http://localhost:4200). O proxy encaminha as chamadas a `/operacoes/bloqueio-cartoes` para o mock em `http://127.0.0.1:3000`.
 
-For end-to-end (e2e) testing, run:
+O mock responde à requisição `POST /operacoes/bloqueio-cartoes` com o conteúdo de `mocks/test/stubs/bloqueio-cartoes.json`. As configurações e os mapeamentos ficam em `mocks/test`.
 
-```bash
-ng e2e
-```
+## Comandos disponíveis
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Execute os comandos a seguir na raiz do projeto:
 
-## Additional Resources
+| Comando | Descrição |
+| --- | --- |
+| `npm start` | Inicia o servidor de desenvolvimento Angular em `http://localhost:4200`. |
+| `npm run start:local` | Inicia a aplicação com a configuração local e o proxy para o mock. |
+| `npm run mock` | Inicia o Stubmatic a partir das configurações em `mocks/test`. Requer instalação global do Stubmatic. |
+| `npm run build` | Gera a build de produção em `dist/`. |
+| `npm run watch` | Gera a build de desenvolvimento e recompila ao detectar alterações. |
+| `npm test` | Executa os testes unitários com Jest. |
+| `npm run lint` | Verifica os arquivos TypeScript e HTML com ESLint. |
+| `npm run lint:fix` | Corrige automaticamente os problemas de lint que puder resolver. |
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
